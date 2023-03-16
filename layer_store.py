@@ -45,7 +45,30 @@ class SetLayerStore(LayerStore):
     - special: Invert the colour output.
     """
 
-    pass
+    def __init__(self): #needs a stack, list. / do i need to put layerstore?
+        
+        self.container = []
+        self.csize = 2
+
+    def add(self, layer: Layer) -> bool: # do i need layer? 
+            
+        if layer is_empty # ask
+            return False
+        else:
+            self.container.append(layer)
+            self.csize += 1
+            return True
+    
+    def erase(self, layer: Layer) -> bool:
+        
+        self.pop([self.container.index[layer]-1])
+
+        return 
+    
+    def special(self):
+
+        
+        return 
 
 class AdditiveLayerStore(LayerStore):
     """
@@ -54,8 +77,27 @@ class AdditiveLayerStore(LayerStore):
     - erase: Remove the first layer that was added. Ignore what is currently selected.
     - special: Reverse the order of current layers (first becomes last, etc.)
     """
+    def __init__(self):
+        self.tempcon = []
 
-    pass
+    def add(self, layer: Layer) -> bool: # treating layer as a stack ??
+    
+    def erase(self):
+
+        layer.pop(0)
+
+    def special(self, layer: layer) -> bool:
+        # make a another contianer to temporarily store colour
+        i = 2 # start from two since reversing
+
+        for items in layer:
+            self.tempcon.append(layer.pop(i)) # appending the item to a new stack
+            i -= 1
+        
+        return self.tempcon # do i need to return the new one ?
+
+
+        self.tempcontainer
 
 class SequenceLayerStore(LayerStore):
     """
