@@ -1,6 +1,8 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from layer_util import Layer
+from data_structures.stack_adt import Stack
+
 
 class LayerStore(ABC):
 
@@ -47,19 +49,19 @@ class SetLayerStore(LayerStore):
 
     def __init__(self): #needs a stack, list. / do i need to put layerstore?
         
-        self.container = []
+        self.stack = Stack
         self.csize = 2
 
-    def add(self, layer: Layer) -> bool: # do i need layer? 
+    def add(self, layer: Layer): # do i need layer? 
             
         if layer is_empty # ask
             return False
         else:
-            self.container.append(layer)
+            self.stack.append(layer)
             self.csize += 1
             return True
     
-    def erase(self, layer: Layer) -> bool:
+    def erase(self, layer: Layer):
         
         self.pop([self.container.index[layer]-1])
 
@@ -78,23 +80,25 @@ class AdditiveLayerStore(LayerStore):
     - special: Reverse the order of current layers (first becomes last, etc.)
     """
     def __init__(self):
-        self.tempcon = []
+        self.stack = Stack #stack to store layers
 
-    def add(self, layer: Layer) -> bool: # treating layer as a stack ??
-    
+    def add(self, layer: Layer): # treating layer as a stack ??
+        
+        self.stack.push(layer)
+
     def erase(self):
 
-        layer.pop(0)
+        self.stack.pop(0) # the first layer is always at index 0
 
-    def special(self, layer: layer) -> bool:
+    def special(self, layer: layer):
         # make a another contianer to temporarily store colour
         i = 2 # start from two since reversing
 
-        for items in layer:
-            self.tempcon.append(layer.pop(i)) # appending the item to a new stack
+        for items in layer: # or stack
+            self.stack.append(self.stack.pop(i)) # appending the item to a new stack
             i -= 1
         
-        return self.tempcon # do i need to return the new one ?
+        return self.stack # do i need to return the new one ?
 
 
         self.tempcontainer
