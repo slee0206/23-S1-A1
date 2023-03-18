@@ -26,8 +26,8 @@ class Grid:
         """
         # does it 
         self.draw_style = draw_style
-        self.x = [x, 0] # x dimension
-        self.y = [0, y] # y dimension
+        self.grid_square = [x, y] # x,y dimension
+        self.brush_size = Grid.DEFAULT_BRUSH_SIZE
     
 
 
@@ -38,11 +38,8 @@ class Grid:
         then do nothing.
         """
 
-        if Grid.DEFAULT_BRUSH_SIZE < Grid.MAX_BRUSH:
-            return Grid.DEFAULT_BRUSH_SIZE += 1 # brush size is 1
-
-        else:
-            pass
+        if Grid.DEFAULT_BRUSH_SIZE < self.MAX_BRUSH:
+            self.brush_size =+ 1 # brush size is 1
 
     def decrease_brush_size(self):
         """
@@ -50,11 +47,8 @@ class Grid:
         if the brush size is already MIN_BRUSH,
         then do nothing.
         """
-        if Grid.DEFAULT_BRUSH_SIZE > Grid.MIN_BRUSH:
-            return Grid.DEFAULT_BRUSH_SIZE -= 1 # brush size is 1
-        
-        else:
-            pass
+        if Grid.DEFAULT_BRUSH_SIZE > self.MIN_BRUSH:
+            self.brush_size -= 1 # brush size is 1
 
     def special(self):
         """

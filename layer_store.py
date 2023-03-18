@@ -49,24 +49,21 @@ class SetLayerStore(LayerStore):
 
     def __init__(self): #needs a stack, list. / do i need to put layerstore?
         
-        self.stack = Stack
-        self.csize = 2
+        self.stack = Stack()
+        self.len() = 1 # length
 
-    def add(self, layer: Layer): # do i need layer? 
+    def add(self, layer: Layer): #
             
-        if layer is_empty # ask
-            return False
+        if self.stack.is_empty:
+            self.stack.push(layer)
         else:
-            self.stack.append(layer)
-            self.csize += 1
-            return True
+            self.stack.pop()
+            self.stack.push(layer)
     
-    def erase(self, layer: Layer):
+    def erase(self): # we dont need layer for this 
         
-        self.pop([self.container.index[layer]-1])
-
-        return 
-    
+        self.stack.pop()
+        
     def special(self):
 
         
@@ -79,29 +76,33 @@ class AdditiveLayerStore(LayerStore):
     - erase: Remove the first layer that was added. Ignore what is currently selected.
     - special: Reverse the order of current layers (first becomes last, etc.)
     """
+
+
     def __init__(self):
-        self.stack = Stack #stack to store layers
+
+        # use array stack 
+
+        self.stack_A = Stack() #stack to store layers
+        self.stack_B = Stack() # temporary stack 
 
     def add(self, layer: Layer): # treating layer as a stack ??
         
         self.stack.push(layer)
 
     def erase(self):
+        
+        self.stack_B.push(self.stack_A.pop())
 
-        self.stack.pop(0) # the first layer is always at index 0
 
-    def special(self, layer: layer):
+    def special(self, layer: Layer):
         # make a another contianer to temporarily store colour
         i = 2 # start from two since reversing
 
         for items in layer: # or stack
-            self.stack.append(self.stack.pop(i)) # appending the item to a new stack
+            self.stack.push(self.stack.pop(layer)) # appending the item to a new stack
             i -= 1
         
         return self.stack # do i need to return the new one ?
-
-
-        self.tempcontainer
 
 class SequenceLayerStore(LayerStore):
     """
