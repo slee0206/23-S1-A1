@@ -286,7 +286,7 @@ class MyWindow(arcade.Window):
     # STUDENT PART
 
     def on_init(self):
-        """Initialisation that occurs after the system initialisation."""
+        """Initialisation that occurs after the system initialisation."""   
         pass
 
     def on_reset(self):
@@ -302,7 +302,15 @@ class MyWindow(arcade.Window):
         px: x position of the brush.
         py: y position of the brush.
         """
-        pass
+        # applying layer in the grid is painting
+        # set brush size
+        # apply layer with the size of current brush size
+
+        self.grid.brush_size # size of layer
+
+        return __ = self.grid[px][py] # position of layer
+        
+
 
     def on_undo(self):
         """Called when an undo is requested."""
