@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from layer_util import Layer
 from data_structures.stack_adt import Stack
+from data_structures.stack_adt import ArrayStack
 
 
 class LayerStore(ABC):
@@ -22,6 +23,10 @@ class LayerStore(ABC):
         """
         Returns the colour this square should show, given the current layers.
         """
+
+        # start = starting colour
+        # timestamp
+
         pass
 
     @abstractmethod
@@ -50,25 +55,44 @@ class SetLayerStore(LayerStore):
     def __init__(self): #needs a stack, list. / do i need to put layerstore?
         
         self.stack = Stack()
-        self.len() = 1 # length
+        self.stack.__len__(1)  # limits len as 1
 
-    def add(self, layer: Layer): #
+    def add(self, layer: Layer)-> bool:#
             
         if self.stack.is_empty:
             self.stack.push(layer)
         else:
             self.stack.pop()
             self.stack.push(layer)
+
+        return True
     
-    def erase(self): # we dont need layer for this 
+    
+    def erase(self, layer: Layer)-> bool: # we dont need layer for this 
+        
         
         self.stack.pop()
+
+        return True
+
         
     def special(self):
+        # in order to apply inversion, (255-R, 255-G, 255-B)
+        
+
+        return 
+    
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+
+        cur_color = self.stack.pop() 
+        rtrn_color = cur_color.apply(start, timestamp, x, y)
+
+        return rtrn_color
+    
+
+
 
         
-        return 
-
 class AdditiveLayerStore(LayerStore):
     """
     Additive layer store. Each added layer applies after all previous ones.
@@ -87,11 +111,13 @@ class AdditiveLayerStore(LayerStore):
 
     def add(self, layer: Layer): # treating layer as a stack ??
         
-        self.stack.push(layer)
+        self.stack_A.push(layer)
 
     def erase(self):
         
-        self.stack_B.push(self.stack_A.pop())
+        for i in range()
+
+        return self.stack_B.push(self.stack_A.pop())
 
 
     def special(self, layer: Layer):
