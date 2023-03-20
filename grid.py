@@ -1,4 +1,6 @@
 from __future__ import annotations
+from data_structures.referential_array import ArrayR
+
 class Grid:
     DRAW_STYLE_SET = "SET"
     DRAW_STYLE_ADD = "ADD"
@@ -24,12 +26,17 @@ class Grid:
 
         Should also intialise the brush size to the DEFAULT provided as a class variable.
         """
-        # does it 
+
         self.draw_style = draw_style
         self.grid_square = [x, y] # x,y dimension
-        self.brush_size = Grid.DEFAULT_BRUSH_SIZE
-    
+        self.brush_size = self.DEFAULT_BRUSH_SIZE
+        
+        #creating grid using referential array
+        self.grid_ref = ArrayR(x)
 
+        height = ArrayR(y)
+        for i in range(i, x):
+            self.grid_ref.__setitem__(i, height) 
 
     def increase_brush_size(self):
         """
@@ -38,7 +45,7 @@ class Grid:
         then do nothing.
         """
 
-        if Grid.DEFAULT_BRUSH_SIZE < self.MAX_BRUSH:
+        if self.DEFAULT_BRUSH_SIZE < self.MAX_BRUSH:
             self.brush_size =+ 1 # brush size is 1
 
     def decrease_brush_size(self):
@@ -47,7 +54,7 @@ class Grid:
         if the brush size is already MIN_BRUSH,
         then do nothing.
         """
-        if Grid.DEFAULT_BRUSH_SIZE > self.MIN_BRUSH:
+        if self.DEFAULT_BRUSH_SIZE > self.MIN_BRUSH:
             self.brush_size -= 1 # brush size is 1
 
     def special(self):
