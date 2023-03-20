@@ -57,6 +57,8 @@ class SetLayerStore(LayerStore):
         self.stack = Stack()
         self.stack.__len__(1)  # limits len as 1
 
+        self.special_active = False
+
     def add(self, layer: Layer)-> bool:#
             
         if self.stack.is_empty:
@@ -79,16 +81,30 @@ class SetLayerStore(LayerStore):
     def special(self):
         # in order to apply inversion, (255-R, 255-G, 255-B)
         
+        if self.special_active is False:
+            self.special_active = True
 
-        return 
+        else:
+            self.special_active = True
+
     
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
 
         cur_color = self.stack.pop() 
-        rtrn_color = cur_color.apply(start, timestamp, x, y)
 
-        return rtrn_color
+        # if the layer is empty, return start (the original code)
+        if cur_color is None:
+            return start
+        
+
+        elif self.special_active is True:
+            rtrn_color = cur_color.apply(start, timestamp, x, y)
+            return rtrn_color.apply(255-rtrn_color[0], 255 - rtrn_color[1], 255 - rtrn_color[2])
+
+        else: 
+            return cur_color.apply(start, timestamp, x, y)
     
+
 
 
 
