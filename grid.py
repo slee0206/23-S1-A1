@@ -30,6 +30,8 @@ class Grid:
         self.draw_style = draw_style
         self.grid_square = [x, y] # x,y dimension
         self.brush_size = self.DEFAULT_BRUSH_SIZE
+
+        __getitem__
         
         #creating grid using referential array
         self.grid_ref = ArrayR(x)

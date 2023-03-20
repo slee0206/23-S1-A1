@@ -95,7 +95,6 @@ class SetLayerStore(LayerStore):
         # if the layer is empty, return start (the original code)
         if cur_color is None:
             return start
-        
 
         elif self.special_active is True:
             rtrn_color = cur_color.apply(start, timestamp, x, y)
