@@ -54,10 +54,10 @@ class SetLayerStore(LayerStore):
 
     def __init__(self): #needs a stack, list. / do i need to put layerstore?
         
-        self.stack = Stack()
+        self.stack = ArrayStack()
         self.stack.__len__(1)  # limits len as 1
 
-        self.special_active = False
+        self.special_active = False # status of special form 
 
     def add(self, layer: Layer)-> bool:#
             
@@ -130,9 +130,8 @@ class AdditiveLayerStore(LayerStore):
 
     def erase(self):
         
-        for i in range()
-
-        return self.stack_B.push(self.stack_A.pop())
+        for i in range():
+            return self.stack_B.push(self.stack_A.pop())
 
 
     def special(self, layer: Layer):

@@ -308,11 +308,11 @@ class MyWindow(arcade.Window):
 
         
         
-        self.grid.brush_size # size of layer
+        #self.grid.brush_size # size of layer
         
-        self.grid[px][py]  #selecting the grid position
+        #self.grid[px][py]  #selecting the grid position
 
-        return 
+        pass
 
 
     def on_undo(self):

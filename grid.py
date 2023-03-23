@@ -28,17 +28,27 @@ class Grid:
         """
 
         self.draw_style = draw_style
-        self.grid_square = [x, y] # x,y dimension
+        self.x = x
+        self.y = y
+        self.grid = ArrayR(x)
+        #size of x
+
+        for i in range(self.x):
+            self.grid[i] = ArrayR(self.y)
+
+        #self.grid_square = (x, y) # x,y dimension
         self.brush_size = self.DEFAULT_BRUSH_SIZE
 
-        __getitem__
+        #__getitem__ == 
         
         #creating grid using referential array
-        self.grid_ref = ArrayR(x)
+        #i = 0
+        #self.grid_ref = ArrayR(x)
 
-        height = ArrayR(y)
-        for i in range(i, x):
-            self.grid_ref.__setitem__(i, height) 
+        #height = ArrayR(y)
+        #for i in range(x):
+       #     return self.grid_ref.__setitem__(i, height) 
+
 
     def increase_brush_size(self):
         """
