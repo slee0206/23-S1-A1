@@ -52,10 +52,11 @@ class SetLayerStore(LayerStore):
     - special: Invert the colour output.
     """
 
-    def __init__(self): #needs a stack, list. / do i need to put layerstore?
+    def __init__(self, max_capacity: int): #needs a stack, list. 
         
         self.stack = ArrayStack()
         self.stack.__len__(1)  # limits len as 1
+        
 
         self.special_active = False # status of special form 
 
@@ -68,6 +69,8 @@ class SetLayerStore(LayerStore):
             self.stack.push(layer)
 
         return True
+    
+    #self.layer = layer
     
     
     def erase(self, layer: Layer)-> bool: # we dont need layer for this 
@@ -121,8 +124,8 @@ class AdditiveLayerStore(LayerStore):
 
         # use array stack 
 
-        self.stack_A = Stack() #stack to store layers
-        self.stack_B = Stack() # temporary stack 
+        self.stack_A = ArrayStack() #stack to store layers
+        self.stack_B = ArrayStack() # temporary stack 
 
     def add(self, layer: Layer): # treating layer as a stack ??
         
