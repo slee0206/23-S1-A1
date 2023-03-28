@@ -183,7 +183,7 @@ class SequenceLayerStore(LayerStore):
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
 
-
+        
 
     def erase(self, layer: Layer) -> bool:
     
