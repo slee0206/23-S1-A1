@@ -116,7 +116,8 @@ class AdditiveLayerStore(LayerStore):
  
         # use circular queue and array stack
         self.queue_A = CircularQueue()
-        self.stack_A = ArrayStack()
+        self.stack_A = ArrayStack() #set limitations
+        self.isspecial = False
 
 
     def add(self, layer: Layer)->bool: 
@@ -131,11 +132,32 @@ class AdditiveLayerStore(LayerStore):
         self.queue_A.serve() #removing the "oldest" element in the queue
     
         return True
-
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
         
         #checks colour existance
+        #for loop
+        #circularqueue
+        #add element into array
 
+        #checking if the queue is empty
+
+        tempqueue = self.queue_A
+
+
+        if not self.queue_A.is_empty():
+        
+            if self.isspecial is not True:
+                for i in range(0, self.queue_A.__len__):
+                    new_lay = self.queue_A.serve()
+                    new_lay.apply(start, timestamp, x, y) # it should produce colour 
+            
+            else: 
+
+        else:
+            return start
+        
+        #check if the colour is inverted
+    
 
         pass
         
@@ -152,7 +174,8 @@ class AdditiveLayerStore(LayerStore):
         for i in range(0, stack_len):
             self.queue_A.append(self.stack_A.pop())
         
-        return self.queue_A
+        self.isspecial = True
+        return True
 
 class SequenceLayerStore(LayerStore):
     """
