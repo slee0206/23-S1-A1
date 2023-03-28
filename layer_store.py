@@ -1,8 +1,9 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from layer_util import Layer
-from data_structures.stack_adt import Stack
 from data_structures.stack_adt import ArrayStack
+from data_structures.queue_adt import CircularQueue
+from data_structures.abstract_list import List
 
 
 class LayerStore(ABC):
@@ -23,10 +24,6 @@ class LayerStore(ABC):
         """
         Returns the colour this square should show, given the current layers.
         """
-
-        # start = starting colour
-        # timestamp
-
         pass
 
     @abstractmethod
@@ -55,12 +52,11 @@ class SetLayerStore(LayerStore):
     def __init__(self, max_capacity: int): #needs a stack, list. 
         
         self.stack = ArrayStack()
-        self.stack.__len__(1)  # limits len as 1
-        
+        self.stack.__len__(max_capacity)  # limits len as 1
 
         self.special_active = False # status of special form 
 
-    def add(self, layer: Layer)-> bool:#
+    def add(self, layer: Layer)-> bool:
             
         if self.stack.is_empty:
             self.stack.push(layer)
@@ -73,7 +69,7 @@ class SetLayerStore(LayerStore):
     #self.layer = layer
     
     
-    def erase(self, layer: Layer)-> bool: # we dont need layer for this 
+    def erase(self)-> bool: # we dont need layer for this 
         
         
         self.stack.pop()
@@ -98,7 +94,7 @@ class SetLayerStore(LayerStore):
         # if the layer is empty, return start (the original code)
         if cur_color is None:
             return start
-
+        #activating special depends on the situation
         elif self.special_active is True:
             rtrn_color = cur_color.apply(start, timestamp, x, y)
             return rtrn_color.apply(255-rtrn_color[0], 255 - rtrn_color[1], 255 - rtrn_color[2])
@@ -120,32 +116,58 @@ class AdditiveLayerStore(LayerStore):
     """
 
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         # use array stack 
 
-        self.stack_A = ArrayStack() #stack to store layers
+        self.stack_A = ArrayStack() # stack to store layers
         self.stack_B = ArrayStack() # temporary stack 
 
-    def add(self, layer: Layer): # treating layer as a stack ??
+        # or use circular queue
+        self.queue_A = CircularQueue()
+        self.queue_B = CircularQueue()
+
+        # or use list
+
+        self.list_A = list()
+        self.list_B = List()
+
+
+
+    def add(self, layer: Layer)->: 
         
-        self.stack_A.push(layer)
+        #self.queue_A.push(layer)
+        self.list_A.append(layer)
 
-    def erase(self):
+    def erase(self)->:
         
-        for i in range():
-            return self.stack_B.push(self.stack_A.pop())
+        #for i in range(1, ):
+        #    return self.stack_B.push(self.stack_A.pop())
+
+        #self.queue_A.serve() #removing the "oldest" element in the queue
+
+        return self.list_A(0)
 
 
-    def special(self, layer: Layer):
+
+    def special(self)->:
         # make a another contianer to temporarily store colour
-        i = 2 # start from two since reversing
+        #i = 2 # start from two since reversing
 
-        for items in layer: # or stack
-            self.stack.push(self.stack.pop(layer)) # appending the item to a new stack
-            i -= 1
+        #for items in stack_A:
+             # or stack
+        #if i >= 0: 
+            #self.stack_B.push(self.stack_A.pop()) # appending the item to a new stack
+            #i -= 1
         
-        return self.stack # do i need to return the new one ?
+        #return self.stack_B # do i need to return the new one ?
+
+        len_A = self.list_A.__len__
+
+        for i in range(0, len_A):
+            self.list_B.append(self.list_A.index([i]))
+        
+        return self.list_B # the new reversed list
 
 class SequenceLayerStore(LayerStore):
     """
@@ -157,4 +179,20 @@ class SequenceLayerStore(LayerStore):
         In the event of two layers being the median names, pick the lexicographically smaller one.
     """
 
-    pass
+    def __init__(self) -> None:
+    
+    def add(self, layer: Layer) -> bool: # makes the layer "applying"
+
+
+
+    def erase(self, layer: Layer) -> bool:
+    
+    def special()
+
+    def lexicographic_Order(txt):
+        tup_lst = []
+        for word in txt.split():
+            for ch in word:
+                if ch in "0123456789":
+                    tup_lst.append((ch, word))
+        return sorted(tup_lst)
