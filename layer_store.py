@@ -1,6 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from layer_util import Layer
+import layers
 from data_structures.stack_adt import ArrayStack
 from data_structures.queue_adt import CircularQueue
 from data_structures.array_sorted_list import ArraySortedList
@@ -49,31 +50,18 @@ class SetLayerStore(LayerStore):
     - special: Invert the colour output.
     """
 
-    def __init__(self, max_capacity: int): #needs a stack, list. 
+    def __init__(self): #needs a stack, list. 
         
-        self.stack = ArrayStack()
-        self.stack.__len__(max_capacity)  # limits len as 1
-
+        self.layer = None
         self.special_active = False # status of special form 
 
     def add(self, layer: Layer)-> bool:
-            
-        if self.stack.is_empty:
-            self.stack.push(layer)
-        else:
-            self.stack.pop()
-            self.stack.push(layer)
-
-        return True
-    
-    #self.layer = layer
+        self.layer = layer
+        return True 
     
     
-    def erase(self)-> bool: # we dont need layer for this 
-        
-        
-        self.stack.pop()
-
+    def erase(self, layer: Layer)-> bool: # we dont need layer for this 
+        self.layer = None
         return True
 
         
@@ -84,20 +72,27 @@ class SetLayerStore(LayerStore):
             self.special_active = True
 
         else:
-            self.special_active = True
+            self.special_active = False
 
     
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
 
-        cur_color = self.stack.pop() 
+        cur_color = self.layer
 
         # if the layer is empty, return start (the original code)
         if cur_color is None:
             return start
         #activating special depends on the situation
         elif self.special_active is True:
-            rtrn_color = cur_color.apply(start, timestamp, x, y)
-            return rtrn_color.apply(255-rtrn_color[0], 255 - rtrn_color[1], 255 - rtrn_color[2])
+            cur_color = cur_color.apply(start, timestamp, x, y)
+            new_color = ()
+            for i in cur_color:
+                new_color += (255 - i, )
+            
+            cur_color = new_color
+            return cur_color
+
+            #return cur_color.apply(255-cur_color[0], 255 - cur_color[1], 255 - cur_color[2])
         #if the user didnt activate special, just return the original conditions
         else: 
             return cur_color.apply(start, timestamp, x, y)
@@ -118,57 +113,46 @@ class AdditiveLayerStore(LayerStore):
 
     def __init__(self) -> None:
 
-        # use array stack 
-
-        self.stack_A = ArrayStack() # stack to store layers
-        self.stack_B = ArrayStack() # temporary stack 
-
-        # or use circular queue
+ 
+        # use circular queue and array stack
         self.queue_A = CircularQueue()
-        self.queue_B = CircularQueue()
-
-        # or use list
-
-        self.list_A = ArraySortedList()
-        self.list_B = ArraySortedList()
-
+        self.stack_A = ArrayStack()
 
 
     def add(self, layer: Layer)->bool: 
         
-        #self.queue_A.push(layer)
-        self.list_A.add(layer)
+        self.queue_A.append(layer)
+
+        return True
+
 
     def erase(self)->bool:
-        
-        #for i in range(1, ):
-        #    return self.stack_B.push(self.stack_A.pop())
 
-        #self.queue_A.serve() #removing the "oldest" element in the queue
-        #if self.list_A is not 
-        #self.list_A(0)
-        #return True
+        self.queue_A.serve() #removing the "oldest" element in the queue
+    
+        return True
+
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+        
+        #checks colour existance
+
+
         pass
+        
 
 
     def special(self)-> bool:
-        # make a another contianer to temporarily store colour
-        #i = 2 # start from two since reversing
 
-        #for items in stack_A:
-             # or stack
-        #if i >= 0: 
-            #self.stack_B.push(self.stack_A.pop()) # appending the item to a new stack
-            #i -= 1
+        queue_len = self.queue_A.__len__
+        stack_len = self.stack_A.__len__
+
+        for i in range(0, queue_len):
+            self.stack_A.push(self.queue_A.serve())
+
+        for i in range(0, stack_len):
+            self.queue_A.append(self.stack_A.pop())
         
-        #return self.stack_B # do i need to return the new one ?
-
-        len_A = self.list_A.__len__
-
-        for i in range(0, len_A):
-            self.list_B.add(self.list_A.index([i]))
-        
-        return self.list_B # the new reversed list
+        return self.queue_A
 
 class SequenceLayerStore(LayerStore):
     """
