@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from layer_util import Layer
 from data_structures.stack_adt import ArrayStack
 from data_structures.queue_adt import CircularQueue
-from data_structures.abstract_list import List
+from data_structures.array_sorted_list import ArraySortedList
 
 
 class LayerStore(ABC):
@@ -98,7 +98,7 @@ class SetLayerStore(LayerStore):
         elif self.special_active is True:
             rtrn_color = cur_color.apply(start, timestamp, x, y)
             return rtrn_color.apply(255-rtrn_color[0], 255 - rtrn_color[1], 255 - rtrn_color[2])
-
+        #if the user didnt activate special, just return the original conditions
         else: 
             return cur_color.apply(start, timestamp, x, y)
     
@@ -129,28 +129,29 @@ class AdditiveLayerStore(LayerStore):
 
         # or use list
 
-        self.list_A = list()
-        self.list_B = List()
+        self.list_A = ArraySortedList()
+        self.list_B = ArraySortedList()
 
 
 
-    def add(self, layer: Layer)->: 
+    def add(self, layer: Layer)->bool: 
         
         #self.queue_A.push(layer)
-        self.list_A.append(layer)
+        self.list_A.add(layer)
 
-    def erase(self)->:
+    def erase(self)->bool:
         
         #for i in range(1, ):
         #    return self.stack_B.push(self.stack_A.pop())
 
         #self.queue_A.serve() #removing the "oldest" element in the queue
+        #if self.list_A is not 
+        #self.list_A(0)
+        #return True
+        pass
 
-        return self.list_A(0)
 
-
-
-    def special(self)->:
+    def special(self)-> bool:
         # make a another contianer to temporarily store colour
         #i = 2 # start from two since reversing
 
@@ -165,7 +166,7 @@ class AdditiveLayerStore(LayerStore):
         len_A = self.list_A.__len__
 
         for i in range(0, len_A):
-            self.list_B.append(self.list_A.index([i]))
+            self.list_B.add(self.list_A.index([i]))
         
         return self.list_B # the new reversed list
 
@@ -180,15 +181,16 @@ class SequenceLayerStore(LayerStore):
     """
 
     def __init__(self) -> None:
+        pass
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
 
-        
+        pass
 
     def erase(self, layer: Layer) -> bool:
-    
-    def special()
-
+        pass
+    def special() -> bool:
+        pass
     def lexicographic_Order(txt):
         tup_lst = []
         for word in txt.split():
@@ -196,3 +198,5 @@ class SequenceLayerStore(LayerStore):
                 if ch in "0123456789":
                     tup_lst.append((ch, word))
         return sorted(tup_lst)
+    
+    pass
