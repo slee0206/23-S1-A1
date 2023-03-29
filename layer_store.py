@@ -188,16 +188,42 @@ class SequenceLayerStore(LayerStore):
     """
 
     def __init__(self) -> None:
+        self.srt_list = ArraySortedList()
         pass
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
+        self.srt_list.add(layer)
+        
+        return True # or "applying"
 
-        pass
+    def erase(self, layer: Layer) -> bool: # makes the layer not "applying"
+        self.srt_list.delete_at_index(layer.index) # delete the layer at that index
 
-    def erase(self, layer: Layer) -> bool:
-        pass
-    def special() -> bool:
-        pass
+        return False # or "not applying"
+    
+    def special(self,layer) -> bool:
+
+        #self.srt_list = sorted(self.srt_list, key=str.lower) #create a list into lexicographic order
+        # if number of element is even 
+        #if len(self.srt_list % 2) == 0:
+        #    self.srt_list.delete_at_index((len(self.srt_list))/2) # deletes a median item
+
+        # if number of element is odd
+        #else:
+        #    len(self.srt_list % 2) == 1:
+
+
+        #create sorted copy of original list
+        lexi_list = sorted(self.srt_list, key=str.lower)
+        mid = len(lexi_list) // 2
+
+        if len(lexi_list) % 2: # if odd
+            return lexi_list[mid]
+        
+        else: # if even
+            return lexi_list[mid-1]+lexi_list[mid])/2
+
+
     def lexicographic_Order(txt):
         tup_lst = []
         for word in txt.split():
