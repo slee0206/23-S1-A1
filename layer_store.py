@@ -140,18 +140,13 @@ class AdditiveLayerStore(LayerStore):
         #circularqueue
         #add element into array
 
-        #checking if the queue is empty
-
         if not self.queue_A.is_empty(): # check if empty
             current = start
-            #if self.isspecial is not True:
             for i in range(0, len(self.queue_A)):
                 new_lay = self.queue_A.serve()
                 current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
                 self.queue_A.append(new_lay)
             return current
-        #elif self.isspecial is True: 
-
         return start
        
 
@@ -191,11 +186,18 @@ class SequenceLayerStore(LayerStore):
 
     def erase(self, layer: Layer) -> bool: # makes the layer not "applying"
         
-        self.srt_list.delete_at_index(layer.index) # delete the layer at that index
+        #self.srt_list.delete_at_index(layer.index) # delete the layer at that index
 
-        return False # or "not applying"
+        #return False # or "not applying"
+
+        for i in range(len(self.srt_list)):
+
+            if self.srt_list.__getitem__(i).value == layer:
+                self.srt_list.delete_at_index(i)
+
+        return True
     
-    def special(self,layer) -> bool:
+    def special(self) -> bool:
 
         #self.srt_list = sorted(self.srt_list, key=str.lower) #create a list into lexicographic order
         # if number of element is even 
@@ -206,7 +208,6 @@ class SequenceLayerStore(LayerStore):
         #else:
         #    len(self.srt_list % 2) == 1:
 
-        #create sorted copy of original list
 
         #lexi_list = sorted(self.srt_list, key=str.lower)
     
@@ -222,12 +223,11 @@ class SequenceLayerStore(LayerStore):
 
         if not self.srt_list.is_empty(): # check if empty
             current = start
-            #if self.isspecial is not True:
+             
             for i in range(0, len(self.srt_list)):
-                new_lay = self.srt_list.()
+                new_lay = self.srt_list.add(start.index)
                 current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
-                self.queue_A.append(new_lay)
+                self.srt_list.add(new_lay)
             return current
-        #elif self.isspecial is True: 
 
         return start
