@@ -36,6 +36,9 @@ class Grid:
             self.grid[i] = ArrayR(self.y)
 
         self.brush_size = self.DEFAULT_BRUSH_SIZE
+        
+        #if add
+        #if 
 
 
     def increase_brush_size(self):

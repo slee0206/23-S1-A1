@@ -217,4 +217,5 @@ class SequenceLayerStore(LayerStore):
             self.srt_list.remove((self.srt_list[mid-1]+self.srt_list[mid])/2)
 
     def get_color(self):
+        
         pass
