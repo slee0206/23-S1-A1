@@ -115,8 +115,8 @@ class AdditiveLayerStore(LayerStore):
 
  
         # use circular queue and array stack
-        self.queue_A = CircularQueue()
-        self.stack_A = ArrayStack() #set limitations
+        self.queue_A = CircularQueue(10000)
+        self.stack_A = ArrayStack(10000) #set limitations
         self.isspecial = False
 
 
@@ -141,26 +141,18 @@ class AdditiveLayerStore(LayerStore):
 
         #checking if the queue is empty
 
-        tempqueue = self.queue_A
-
-
-        if not self.queue_A.is_empty():
-        
+        if not self.queue_A.is_empty(): # check if empty
+            current = start
             if self.isspecial is not True:
-                for i in range(0, self.queue_A.__len__):
+                for i in range(0, len(self.queue_A)):
                     new_lay = self.queue_A.serve()
-                    new_lay.apply(start, timestamp, x, y) # it should produce colour 
-            
-            else: 
+                    current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
 
+                return current
         else:
             return start
-        
-        #check if the colour is inverted
-    
+       
 
-        pass
-        
 
 
     def special(self)-> bool:
@@ -188,7 +180,7 @@ class SequenceLayerStore(LayerStore):
     """
 
     def __init__(self) -> None:
-        self.srt_list = ArraySortedList()
+        self.srt_list = ArraySortedList(10000)
         pass
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
@@ -212,24 +204,17 @@ class SequenceLayerStore(LayerStore):
         #else:
         #    len(self.srt_list % 2) == 1:
 
-
         #create sorted copy of original list
-        lexi_list = sorted(self.srt_list, key=str.lower)
-        mid = len(lexi_list) // 2
 
-        if len(lexi_list) % 2: # if odd
-            return lexi_list[mid]
+        #lexi_list = sorted(self.srt_list, key=str.lower)
+    
+        mid = len(self.srt_list) // 2 #getting a mid value
+
+        if len(self.srt_list) % 2: # if odd
+            self.srt_list.remove(self.srt_list[mid])
         
         else: # if even
-            return lexi_list[mid-1]+lexi_list[mid])/2
+            self.srt_list.remove((self.srt_list[mid-1]+self.srt_list[mid])/2)
 
-
-    def lexicographic_Order(txt):
-        tup_lst = []
-        for word in txt.split():
-            for ch in word:
-                if ch in "0123456789":
-                    tup_lst.append((ch, word))
-        return sorted(tup_lst)
-    
-    pass
+    def get_color(self):
+        pass
