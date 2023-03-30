@@ -5,7 +5,7 @@ import layers
 from data_structures.stack_adt import ArrayStack
 from data_structures.queue_adt import CircularQueue
 from data_structures.array_sorted_list import ArraySortedList
-
+from data_structures.sorted_list_adt import ListItem
 
 class LayerStore(ABC):
 
@@ -127,11 +127,12 @@ class AdditiveLayerStore(LayerStore):
         return True
 
 
-    def erase(self)->bool:
+    def erase(self, layer:Layer)->bool:
 
         self.queue_A.serve() #removing the "oldest" element in the queue
     
         return True
+    
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
         
         #checks colour existance
@@ -143,22 +144,21 @@ class AdditiveLayerStore(LayerStore):
 
         if not self.queue_A.is_empty(): # check if empty
             current = start
-            if self.isspecial is not True:
-                for i in range(0, len(self.queue_A)):
-                    new_lay = self.queue_A.serve()
-                    current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
+            #if self.isspecial is not True:
+            for i in range(0, len(self.queue_A)):
+                new_lay = self.queue_A.serve()
+                current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
+                self.queue_A.append(new_lay)
+            return current
+        #elif self.isspecial is True: 
 
-                return current
-        else:
-            return start
+        return start
        
-
-
 
     def special(self)-> bool:
 
-        queue_len = self.queue_A.__len__
-        stack_len = self.stack_A.__len__
+        queue_len = len(self.queue_A)   #self.queue_A.__len__
+        stack_len = len(self.queue_A) #self.stack_A.__len__
 
         for i in range(0, queue_len):
             self.stack_A.push(self.queue_A.serve())
@@ -184,11 +184,13 @@ class SequenceLayerStore(LayerStore):
         pass
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
-        self.srt_list.add(layer)
+        item = ListItem(layer, layer.index)
+        self.srt_list.add(item)
         
         return True # or "applying"
 
     def erase(self, layer: Layer) -> bool: # makes the layer not "applying"
+        
         self.srt_list.delete_at_index(layer.index) # delete the layer at that index
 
         return False # or "not applying"
@@ -210,12 +212,22 @@ class SequenceLayerStore(LayerStore):
     
         mid = len(self.srt_list) // 2 #getting a mid value
 
-        if len(self.srt_list) % 2: # if odd
+        if len(self.srt_list) % 2 != 0 : # if odd
             self.srt_list.remove(self.srt_list[mid])
         
         else: # if even
             self.srt_list.remove((self.srt_list[mid-1]+self.srt_list[mid])/2)
 
-    def get_color(self):
-        
-        pass
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+
+        if not self.srt_list.is_empty(): # check if empty
+            current = start
+            #if self.isspecial is not True:
+            for i in range(0, len(self.srt_list)):
+                new_lay = self.srt_list.()
+                current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
+                self.queue_A.append(new_lay)
+            return current
+        #elif self.isspecial is True: 
+
+        return start
