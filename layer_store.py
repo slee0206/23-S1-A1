@@ -176,7 +176,7 @@ class SequenceLayerStore(LayerStore):
 
     def __init__(self) -> None:
         self.srt_list = ArraySortedList(10000)
-        pass
+        
     
     def add(self, layer: Layer) -> bool: # makes the layer "applying"
         item = ListItem(layer, layer.index)
@@ -188,8 +188,6 @@ class SequenceLayerStore(LayerStore):
         
         #self.srt_list.delete_at_index(layer.index) # delete the layer at that index
 
-        #return False # or "not applying"
-
         for i in range(len(self.srt_list)):
 
             if self.srt_list.__getitem__(i).value == layer:
@@ -198,16 +196,6 @@ class SequenceLayerStore(LayerStore):
         return True
     
     def special(self) -> bool:
-
-        #self.srt_list = sorted(self.srt_list, key=str.lower) #create a list into lexicographic order
-        # if number of element is even 
-        #if len(self.srt_list % 2) == 0:
-        #    self.srt_list.delete_at_index((len(self.srt_list))/2) # deletes a median item
-
-        # if number of element is odd
-        #else:
-        #    len(self.srt_list % 2) == 1:
-
 
         #lexi_list = sorted(self.srt_list, key=str.lower)
     
@@ -219,15 +207,18 @@ class SequenceLayerStore(LayerStore):
         else: # if even
             self.srt_list.remove((self.srt_list[mid-1]+self.srt_list[mid])/2)
 
+
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
 
-        if not self.srt_list.is_empty(): # check if empty
+        if not self.srt_list.is_empty(): # if the list is not empty, procecess
             current = start
              
             for i in range(0, len(self.srt_list)):
-                new_lay = self.srt_list.add(start.index)
+                new_lay = self.srt_list.add(current)
                 current = new_lay.apply(current, timestamp, x, y) # it should produce colour 
                 self.srt_list.add(new_lay)
             return current
 
         return start
+    
+    # 
