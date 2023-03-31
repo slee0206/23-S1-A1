@@ -332,12 +332,12 @@ class SequenceLayerStore(LayerStore):
         
         """
 
-        if self.srt_list.is_empty() is False:
-            item = ListItem(layer, layer.index)
-            srt_idx = self.srt_list.index(item)
-            self.srt_list.delete_at_index(srt_idx)
-
-            l_item = ListItem(layer, layer.index)
+        if self.srt_list.is_empty() is False:   
+            item = ListItem(layer, layer.index) # sets the layer as an listitem
+            srt_idx = self.srt_list.index(item) # appending the list
+            self.srt_list.delete_at_index(srt_idx) # deleting the name at the chosen index
+                                                # **repeats for the other list**
+            l_item = ListItem(layer, layer.index)  
             lex_idx = self.lexi_list.index(l_item)
             self.lexi_list.delete_at_index(lex_idx)
 
@@ -373,10 +373,10 @@ class SequenceLayerStore(LayerStore):
         mid = (len(self.srt_list) // 2) #getting a mid value
 
         if len(self.srt_list) % 2 != 0 : # if odd
-            self.erase(self.lexi_list[mid].value)
+            self.erase(self.lexi_list[mid].value) 
         
         else: # if even
-            self.erase((self.lexi_list[mid - 1].value))
+            self.erase((self.lexi_list[mid - 1].value)) # choosing smaller name
 
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
@@ -402,7 +402,7 @@ class SequenceLayerStore(LayerStore):
             current = start
 
             for i in range(0, len(self.srt_list)):
-                current = self.srt_list[i].value.apply(current, timestamp, x, y)
+                current = self.srt_list[i].value.apply(current, timestamp, x, y) # apply new layers over another layer.
                 
             return current
 
