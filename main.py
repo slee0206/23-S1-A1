@@ -303,24 +303,24 @@ class MyWindow(arcade.Window):
         py: y position of the brush.
         """
         # applying layer in the grid is painting
-        # set brush size
+        # set brush size, self.grid.brush_size
         # apply layer with the size of current brush size
-
-        
-        
-        #self.grid.brush_size # size of layer
-        
-        #self.grid[px][py]  #selecting the grid position
+        # self.grid.brush_size is the size of layer
+        # self.grid[px][py], selecting the grid position
 
         pass
 
 
     def on_undo(self):
         """Called when an undo is requested."""
+
+
         pass
 
     def on_redo(self):
         """Called when a redo is requested."""
+
+
         pass
 
     def on_special(self):

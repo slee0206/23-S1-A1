@@ -25,20 +25,25 @@ class Grid:
         - x, y: The dimensions of the grid.
 
         Should also intialise the brush size to the DEFAULT provided as a class variable.
+
+        logic for creating grid:
+
+        1. get an horizontal array of length x
+        2. create vertical array for each element in horizontal array
+        3. which makes x * y as a whole grid. 
+
+
         """
 
-        self.draw_style = draw_style
-        self.x = x
+        self.draw_style = draw_style # intialising draw style as instance
+        self.x = x 
         self.y = y
         self.grid = ArrayR(x)
 
         for i in range(self.x):
-            self.grid[i] = ArrayR(self.y)
+            self.grid[i] = ArrayR(self.y)  
 
-        self.brush_size = self.DEFAULT_BRUSH_SIZE
-        
-        #if add
-        #if 
+        self.brush_size = self.DEFAULT_BRUSH_SIZE # setting the brush size
 
 
     def increase_brush_size(self):
@@ -49,7 +54,7 @@ class Grid:
         """
 
         if self.DEFAULT_BRUSH_SIZE < self.MAX_BRUSH:
-            self.brush_size =+ 1 # brush size is 1
+            self.brush_size =+ 1 # brush size is increased by 1
 
     def decrease_brush_size(self):
         """
@@ -58,7 +63,7 @@ class Grid:
         then do nothing.
         """
         if self.DEFAULT_BRUSH_SIZE > self.MIN_BRUSH:
-            self.brush_size -= 1 # brush size is 1
+            self.brush_size -= 1 # brush size is decreased by 1
 
     def special(self):
         """
